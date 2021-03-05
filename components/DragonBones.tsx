@@ -23,7 +23,14 @@ export default class DragonBones extends Component<Props>{
     }
 
     render(): ReactElement {
-        return <div ref={this.onGetDivRef} />
+        const {
+            armature,
+        } = this.props
+        const aabb = armature.armatureData.aabb
+        return <div ref={this.onGetDivRef} style={{
+            width: aabb.width,
+            height: aabb.height,
+        }} />
     }
 
     private onGetDivRef = (ref: HTMLDivElement | null) => {
