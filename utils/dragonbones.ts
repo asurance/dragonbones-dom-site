@@ -1,8 +1,8 @@
-import { DomFactory, dragonBones } from 'dragonbones-dom'
+import { DomFactory, dragonBones, CreateEventManager } from 'dragonbones-dom'
 import SkeleteonJson from '../assets/skeleton.json'
 import TextureJson from '../assets/texture.json'
 
-const factory = new DomFactory()
+const factory = new DomFactory(new dragonBones.DragonBones(CreateEventManager()))
 
 export function GetDefaultArmature(): dragonBones.Armature {
     factory.parseDragonBonesData(SkeleteonJson)!
