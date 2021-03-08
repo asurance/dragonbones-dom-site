@@ -8,7 +8,7 @@ const movieWidth = 480
 const movieHeight = 480
 
 const Dragon = memo(function Dragon(): ReactElement {
-    const [armatures] = useState([GetDefaultArmature()])
+    const [armatures] = useState(() => [GetDefaultArmature()])
     const [armatureIndex, setArmatureIndex] = useState(0)
     const [animationIndex, setAnimationIndex] = useState(0)
     const lastArmature = useRef<dragonBones.Armature | null>(null)
