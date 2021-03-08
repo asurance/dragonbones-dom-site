@@ -1,8 +1,11 @@
 import { dragonBones } from 'dragonbones-dom'
-import { DragEvent, memo, ReactElement, useCallback, useRef, useState } from 'react'
+import { memo, ReactElement, useCallback, useRef, useState } from 'react'
 import { GetDefaultArmature } from '../utils/dragonbones'
 import DragonBones from './DragonBones'
 import List from './List'
+
+const movieWidth = 480
+const movieHeight = 480
 
 const Dragon = memo(function Dragon(): ReactElement {
     const [armatures] = useState([GetDefaultArmature()])
@@ -28,9 +31,11 @@ const Dragon = memo(function Dragon(): ReactElement {
         const animationNames = armature.animation.animationNames
         armature.animation.play(animationNames[index])
     }, [armature])
+    const aabb = armature.armatureData.aabb
+    const scale = Math.min(movieWidth / aabb.width, movieHeight / aabb.height)
     return <div id="movie-container">
         <div id="movie" style={{
-            transform: 'scale(0.5,0.5)'
+            transform: `scale(${scale},${scale})`
         }}>
             <DragonBones armature={armature} />
         </div>
