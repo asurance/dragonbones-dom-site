@@ -1,5 +1,5 @@
 import { dragonBones } from 'dragonbones-dom'
-import { memo, ReactElement, useCallback, useRef, useState } from 'react'
+import { DragEvent, memo, ReactElement, useCallback, useRef, useState } from 'react'
 import { GetDefaultArmature } from '../utils/dragonbones'
 import DragonBones from './DragonBones'
 import List from './List'
@@ -19,11 +19,11 @@ const Dragon = memo(function Dragon(): ReactElement {
         lastArmature.current = armature
     }
 
-    const onSelectArmature = useCallback(index => {
+    const onSelectArmature = useCallback((index: number) => {
         setArmatureIndex(index)
         setAnimationIndex(0)
     }, [])
-    const onSelectAnimation = useCallback(index => {
+    const onSelectAnimation = useCallback((index: number) => {
         setAnimationIndex(index)
         const animationNames = armature.animation.animationNames
         armature.animation.play(animationNames[index])
