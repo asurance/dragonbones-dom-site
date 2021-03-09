@@ -911,6 +911,11 @@ domain-browser@^1.1.1:
   resolved "https://registry.npmjs.org/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
+dragonbones-dom@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/dragonbones-dom/-/dragonbones-dom-1.0.1.tgz#9bf7aa68f1429eab91cab184a4f110ab3dcd36cb"
+  integrity sha512-gIacVsU3mix51Hf+egA5b1TRp7bPNiUnC2JDJyQ12kk4cSkIn1K6dupxJcFDnn6wKI/u905Q29ymJKO/mdfeYg==
+
 electron-to-chromium@^1.3.634:
   version "1.3.680"
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.680.tgz#88cc44bd2a85b46cf7521f714db57dd74d0cd488"
