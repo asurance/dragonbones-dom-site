@@ -25,6 +25,10 @@ export async function JsonLoader(file: File): Promise<unknown> {
     return JSON.parse(json)
 }
 
+let url = ''
+
 export function PngLoader(file: File): string {
-    return URL.createObjectURL(file)
+    URL.revokeObjectURL(url)
+    url = URL.createObjectURL(file)
+    return url
 }
