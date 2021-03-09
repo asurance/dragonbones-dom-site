@@ -13,9 +13,7 @@ export default function Home(): ReactElement {
             <meta charSet="utf-8" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
-        <header>dragonbones-dom<Github /></header>
-        <main>
-            <Dragon />
-        </main>
+        <header className="header">dragonbones-dom<Github /></header>
+        <Dragon />
     </div>
 }

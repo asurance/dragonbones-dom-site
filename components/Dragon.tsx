@@ -1,49 +1,119 @@
 import { dragonBones } from 'dragonbones-dom'
-import { memo, ReactElement, useCallback, useRef, useState } from 'react'
-import { GetDefaultArmature } from '../utils/dragonbones'
+import { PureComponent, ReactElement } from 'react'
+import { CreateArmatures, GetDefaultArmature, JsonLoader, PngLoader } from '../utils/dragonbones'
+import DragFile from './DragFile'
 import DragonBones from './DragonBones'
 import List from './List'
 
 const movieWidth = 480
 const movieHeight = 480
 
-const Dragon = memo(function Dragon(): ReactElement {
-    const [armatures] = useState(() => [GetDefaultArmature()])
-    const [armatureIndex, setArmatureIndex] = useState(0)
-    const [animationIndex, setAnimationIndex] = useState(0)
-    const lastArmature = useRef<dragonBones.Armature | null>(null)
-    const armature = armatures[armatureIndex]
-    if (armature !== lastArmature.current) {
-        lastArmature.current?.animation.stop()
-        const animationNames = armature.animation.animationNames
-        armature.animation.play(animationNames[animationIndex])
-        const aabb = armature.armatureData.aabb
-        armature.display.style.transform = `translate(${-aabb.x}px,${-aabb.y}px)`
-        lastArmature.current = armature
+type State = {
+    armatures: dragonBones.Armature[]
+    armatureIndex: number
+    animationIndex: number
+}
+export default class Dragon extends PureComponent<unknown, State>{
+    private skeletonJson: File | null = null
+    private textureJson: File | null = null
+    private texturePng: File | null = null
+    private lastArmature: dragonBones.Armature
+
+    constructor(props: unknown) {
+        super(props)
+        this.state = {
+            armatures: [GetDefaultArmature()],
+            armatureIndex: 0,
+            animationIndex: 0,
+        }
+        this.lastArmature = this.state.armatures[0]
+        const animation = this.lastArmature.animation
+        animation.play(animation.animationNames[0])
     }
 
-    const onSelectArmature = useCallback((index: number) => {
-        setArmatureIndex(index)
-        setAnimationIndex(0)
-    }, [])
-    const onSelectAnimation = useCallback((index: number) => {
-        setAnimationIndex(index)
+    private onSelectArmature = (index: number) => {
+        this.lastArmature.animation.stop()
+        this.lastArmature = this.state.armatures[index]
+        const animation = this.lastArmature.animation
+        animation.play(animation.animationNames[0])
+        this.setState({
+            armatureIndex: index,
+            animationIndex: 0,
+        })
+    }
+
+    private onSelectAnimation = (index: number) => {
+        const armature = this.state.armatures[this.state.armatureIndex]
         const animationNames = armature.animation.animationNames
         armature.animation.play(animationNames[index])
-    }, [armature])
-    const aabb = armature.armatureData.aabb
-    const scale = Math.min(movieWidth / aabb.width, movieHeight / aabb.height)
-    return <div id="movie-container">
-        <div id="movie" style={{
-            transform: `scale(${scale},${scale})`
-        }}>
-            <DragonBones armature={armature} />
-        </div>
-        <div id="select-area">
-            <List title="骨架" index={armatureIndex} value={armatures.map(armature => armature.name)} onSelect={onSelectArmature} />
-            <List title="动画" index={animationIndex} value={armature.animation.animationNames.concat()} onSelect={onSelectAnimation} />
-        </div>
-    </div>
-})
+        this.setState({
+            animationIndex: index
+        })
+    }
 
-export default Dragon
+    private onDropSkeletonJson = (file: File) => {
+        this.skeletonJson = file
+    }
+
+    private onDropTextureJson = (file: File) => {
+        this.textureJson = file
+    }
+
+    private onDropTexturePng = (file: File) => {
+        this.texturePng = file
+    }
+
+    private onClickActive = async () => {
+        if (this.skeletonJson && this.textureJson && this.texturePng) {
+            try {
+                const [skeletonJson, textureJson, texturePng] = await Promise.all([JsonLoader(this.skeletonJson), JsonLoader(this.textureJson), PngLoader(this.texturePng)])
+                const armatures = CreateArmatures(skeletonJson, textureJson, texturePng)
+                if (armatures) {
+                    const armature = this.state.armatures[0]
+                    const animationNames = armature.animation.animationNames
+                    armature.animation.play(animationNames[0])
+                    this.setState({
+                        armatures,
+                        armatureIndex: 0,
+                        animationIndex: 0,
+                    })
+                } else {
+                    alert('未找到骨架')
+                }
+            } catch (e) {
+                alert(`解析失败:${e}`)
+            }
+            this.skeletonJson.text()
+        } else {
+            alert('骨架配置,图集配置,图集资源三者缺一不可')
+        }
+    }
+
+    render(): ReactElement {
+        const {
+            armatures,
+            armatureIndex,
+            animationIndex,
+        } = this.state
+        const armature = armatures[armatureIndex]
+        const aabb = armature.armatureData.aabb
+        const scale = Math.min(movieWidth / aabb.width, movieHeight / aabb.height)
+        return <main className="main">
+            <div className="movie" style={{
+                transform: `scale(${scale},${scale})`
+            }}>
+                <DragonBones armature={armature} />
+            </div>
+            <div className="file-area">
+                <DragFile type="骨架配置" onDropFile={this.onDropSkeletonJson} />
+                <DragFile type="图集配置" onDropFile={this.onDropTextureJson} />
+                <DragFile type="图集资源" onDropFile={this.onDropTexturePng} />
+                <button onClick={this.onClickActive}>试试上传的动画</button>
+            </div>
+            <div className="list-area">
+                <List title="骨架" index={armatureIndex} value={armatures.map(armature => armature.name)} onSelect={this.onSelectArmature} />
+                <List title="动画" index={animationIndex} value={armature.animation.animationNames.concat()} onSelect={this.onSelectAnimation} />
+            </div>
+        </main>
+    }
+}

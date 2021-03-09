@@ -9,17 +9,6 @@ html, body {
     box-sizing: border-box;
 }
 
-header {
-    font-size: 4rem;
-    text-align: center;
-    height: 12rem;
-    line-height: 12rem;
-    white-space: nowrap;
-    background-color: rgb(184, 255, 173);
-    color: black;
-    border-radius: 0 0 4rem 4rem;
-}
-
 main {
     display: flex;
     justify-content: center;
@@ -33,24 +22,95 @@ main {
     height: 0.5em;
 }
 
-#movie-container {
-    width: 100%;
+.header {
+    font-size: 4rem;
+    text-align: center;
+    height: 12rem;
+    line-height: 12rem;
+    white-space: nowrap;
+    background-color: rgba(78, 255, 51, 0.7);
+    color: black;
+    border-radius: 0 0 4rem 4rem;
 }
 
-#movie {
+.main {}
+
+.movie {
+    width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#select-area {
+.file-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-area>button {
+    width: 16rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid rgba(78, 255, 51, 0.5);
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+.file-area>button:hover {
+    background-color: rgba(78, 255, 51, 0.5);
+}
+
+.drag-area {
+    width: 16rem;
+    height: 12rem;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: #aaa;
+    transition: color 0.5s, background-color 0.5s;
+    background-image: linear-gradient(to right, black 10px, white 10px), linear-gradient(to bottom, black 10px, white 10px), linear-gradient(to left, black 10px, white 10px), linear-gradient(to top, black 10px, white 10px);
+    background-size: 20px 1px, 1px 20px, 20px 1px, 1px 20px;
+    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    animation: drag-hover 0.5s linear infinite;
+    animation-play-state: paused;
+}
+
+@keyframes drag-hover {
+    from {
+        background-position: 0 0, 100% 0, 0 100%, 0 0%;
+    }
+    to {
+        background-position: 20px 0, 100% 20px, -20px 100%, 0 -20px;
+    }
+}
+
+.drag-area.hover {
+    color: black;
+    background-color: rgba(78, 255, 51, 0.5);
+    animation-play-state: running;
+}
+
+.list-area {
     position: fixed;
-    right: 0;
-    top:20rem;
-    flex: 0 0 24rem;
+    right: -23rem;
+    top: 20rem;
+    width: 24rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: right 1s;
+}
+
+.list-area:hover {
+    right: 0;
 }
 
 .list-container {
@@ -60,7 +120,7 @@ main {
     padding: 1rem 2rem;
 }
 
-.list-container p {
+.list-container>header {
     font-size: 2rem;
     text-align: center;
 }

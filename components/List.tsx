@@ -14,10 +14,10 @@ export default function List({
     index,
     onSelect,
 }: Props): ReactElement {
-    return <div className="list-container">
-        <p>{title}</p>
+    return <section className="list-container">
+        <header>{title}</header>
         <div className="list">
             {value.map((v, i) => <ListItem key={v} value={v} index={i} select={index === i} onSelect={onSelect} />)}
         </div>
-    </div>
+    </section>
 }
