@@ -28,7 +28,7 @@ export default function DragFile({
             onDropFile(file)
         }
     }, [onDropFile])
-    return <section onDragOver={onDragOver} onDrop={onDrop} onDragLeave={onDragLeave} className={hover ? 'drag-area hover' : 'drag-area'}>
+    return <div onDragOver={onDragOver} onDrop={onDrop} onDragLeave={onDragLeave} className={hover ? 'drag-area hover' : 'drag-area'}>
         {file ? file.name : type}
-    </section>
+    </div>
 }

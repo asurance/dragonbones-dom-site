@@ -99,21 +99,24 @@ export default class Dragon extends PureComponent<unknown, State>{
         const aabb = armature.armatureData.aabb
         const scale = Math.min(movieWidth / aabb.width, movieHeight / aabb.height)
         return <main className="main">
-            <div className="movie" style={{
+            <section className="movie" style={{
                 transform: `scale(${scale},${scale})`
             }}>
                 <DragonBones armature={armature} />
-            </div>
-            <div className="file-area">
-                <DragFile type="骨架配置" onDropFile={this.onDropSkeletonJson} />
-                <DragFile type="图集配置" onDropFile={this.onDropTextureJson} />
-                <DragFile type="图集资源" onDropFile={this.onDropTexturePng} />
+            </section>
+            <section className="file-area">
+                <DragFile type="骨架配置(*.json)" onDropFile={this.onDropSkeletonJson} />
+                <DragFile type="图集配置(*.json)" onDropFile={this.onDropTextureJson} />
+                <DragFile type="图集资源(*.png)" onDropFile={this.onDropTexturePng} />
                 <button onClick={this.onClickActive}>试试上传的动画</button>
-            </div>
-            <div className="list-area">
-                <List title="骨架" index={armatureIndex} value={armatures.map(armature => armature.name)} onSelect={this.onSelectArmature} />
-                <List title="动画" index={animationIndex} value={armature.animation.animationNames.concat()} onSelect={this.onSelectAnimation} />
-            </div>
+            </section>
+            <section className="select-area">
+                <div className="list-area">
+                    <List title="骨架" index={armatureIndex} value={armatures.map(armature => armature.name)} onSelect={this.onSelectArmature} />
+                    <List title="动画" index={animationIndex} value={armature.animation.animationNames.concat()} onSelect={this.onSelectAnimation} />
+                </div>
+                <header>试试其他动画</header>
+            </section>
         </main>
     }
 }

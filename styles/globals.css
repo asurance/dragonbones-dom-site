@@ -1,3 +1,7 @@
+:root{
+    font-size: 16px;
+}
+
 html, body {
     padding: 0;
     margin: 0;
@@ -32,8 +36,6 @@ main {
     color: black;
     border-radius: 0 0 4rem 4rem;
 }
-
-.main {}
 
 .movie {
     width: 70%;
@@ -98,48 +100,68 @@ main {
     animation-play-state: running;
 }
 
-.list-area {
+.select-area {
     position: fixed;
-    right: -23rem;
+    left: -24rem;
     top: 20rem;
-    width: 24rem;
+    display: flex;
+    background-color: rgba(125, 255, 105, 0.2);
+    border-radius: 0 1rem 1rem 0;
+    justify-content: flex-end;
+    transition: left 1s;
+}
+
+.select-area>header {
+    padding-right: 0.1rem;
+    width: 2rem;
+    flex-basis: 1.5rem;
+    font-size: 1.5rem;
+    writing-mode: vertical-lr;
+    text-align: center;
+}
+
+.select-area:hover {
+    left: 0;
+}
+
+.list-area {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: right 1s;
-}
-
-.list-area:hover {
-    right: 0;
+    transition: right 0.1s;
 }
 
 .list-container {
-    background-color: #eee;
-    border-radius: 0.1rem;
-    width: 8rem;
-    padding: 1rem 2rem;
+    width: 12rem;
+    padding: 0.1rem 0.2rem;
 }
 
 .list-container>header {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    padding: 0.2rem;
     text-align: center;
 }
 
 .list {
     display: flex;
     flex-direction: column;
-    height: 24rem;
+    height: 18rem;
     overflow-y: auto;
 }
 
 .list-item {
     margin: 0.1rem 0;
     outline: none;
-    border: 1px solid;
-    border-radius: 0.1rem;
+    border: 1px solid rgb(22, 255, 61);
+    background-color: rgba(22, 255, 61, 0);
+    border-radius: 0.1refm;
+}
+
+.list-item:hover {
+    background: rgba(22, 255, 61, 0.3);
 }
 
 .list-item.select {
-    background: white;
+    background: rgba(22, 255, 61, 1);
     color: #333;
 }
